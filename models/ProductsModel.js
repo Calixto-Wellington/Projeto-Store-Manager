@@ -1,6 +1,6 @@
 const connection = require('./connection');
 
-const getAll = async () => {
+const getProductAll = async () => {
   try {
     const [rows] = await connection.query('SELECT * FROM products');
     return rows;
@@ -10,9 +10,9 @@ const getAll = async () => {
   }
 };
 
-const getByAll = async ({ id }) => {
+const getProductById = async (id) => {
   try {
-  const [result] = await connection.query('SELECT * FROM products WHERE id = ?,'[id]);
+  const [result] = await connection.query('SELECT * FROM products WHERE id = ?', [id]);
   if (!result.length) return null;
   return result[0];
 } catch (err) {
@@ -21,4 +21,4 @@ const getByAll = async ({ id }) => {
  } 
 };
 
-module.exports = { getAll, getByAll };
+module.exports = { getProductAll, getProductById };

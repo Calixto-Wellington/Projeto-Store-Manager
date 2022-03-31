@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 
-const ProductsRouter = require('./routers/ProductsRouter');
+const Router = require('./routers/Router');
 
 const app = express();
 
@@ -10,7 +10,7 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.use('/', ProductsRouter);
+app.use('/', Router);
 
 app.listen(process.env.PORT, () => {
   console.log(`Escutando na porta ${process.env.PORT}`);
