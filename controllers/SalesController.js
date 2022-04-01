@@ -25,4 +25,14 @@ const getSaleById = async (req, res) => {
 }
 };
 
-module.exports = { getSalesAll, getSaleById };
+const createProductSales = async (req, res) => {
+  try {
+    const createSale = await SalesServices.createProductSales(req.body);
+    return res.status(201).json(createSale);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Erro de Servidor' });
+  }
+};
+
+module.exports = { getSalesAll, getSaleById, createProductSales };

@@ -40,4 +40,14 @@ const updateProduct = async (product) => {
   }
 };
 
-module.exports = { getProductAll, getProductById, createProduct, updateProduct };
+const deleteProduct = async (id) => {
+  try {
+    const deleteProducts = await ProductsModel.deleteProduct(id);
+    return deleteProducts;
+  } catch (err) {
+    console.error(err);
+    return process.exit(1);
+}
+};
+
+module.exports = { getProductAll, getProductById, createProduct, updateProduct, deleteProduct };

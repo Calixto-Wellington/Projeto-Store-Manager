@@ -53,4 +53,20 @@ const updateProduct = async (req, res) => {
      }
 };
 
-module.exports = { getProductAll, getProductById, createProduct, updateProduct };
+const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const product = await ProductsServices.getProductById(id);
+  if (!product) {
+    return res.status(404).send({ message: 'Product not found' });
+  }
+  await ProductsServices.deleteProduct(id);
+  return res.status(204).end();
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Erro de Servidor' });
+     }
+};
+
+module.exports = { getProductAll, getProductById, createProduct, updateProduct, deleteProduct };
