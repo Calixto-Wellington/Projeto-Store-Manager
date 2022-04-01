@@ -19,13 +19,13 @@ const getNewSale = ({ saleId, date, productId, quantity }) => ({
       productId,
       quantity,
       });
-  
+
     const serializeById = (saleDataById) => ({
         date: saleDataById.date,
         productId: saleDataById.product_id,
         quantity: saleDataById.quantity,
       });
-  
+
 const getSalesAll = async () => {
   try {
     const [rows] = await connection
