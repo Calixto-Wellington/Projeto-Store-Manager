@@ -1,16 +1,5 @@
 const ProductsServices = require('../services/ProductsService');
 
-const getProductAll = async (_req, res) => {
-  try {
-    const products = await ProductsServices.getProductAll();
-
-    return res.status(200).json(products);
-} catch (error) {
-  console.error(error);
-  return res.status(500).json({ message: 'Erro' });
-  }
-};
-
 const getProductById = async (req, res) => {
   try {
   const { id } = req.params;
@@ -25,10 +14,24 @@ const getProductById = async (req, res) => {
 }
 };
 
+const getProductAll = async (_req, res) => {
+  try {
+    const products = await ProductsServices.getProductAll();
+
+    return res.status(200).json(products);
+} catch (error) {
+  console.error(error);
+  return res.status(500).json({ message: 'Erro' });
+  }
+};
+
 const createProduct = async (req, res) => {
-    try { 
-    const { name, quantity } = req.body;
-  
+  const { name, quantity } = req.body; 
+  try { 
+    const nome = await ProductsServices.getByNames({ name });
+      if (nome.length !== 0) {
+     return res.status(409).send({ message: 'Product already exists' });
+     }
     const products = await ProductsServices.createProduct({ name, quantity });
     return res.status(201).json(products);
   } catch (error) {

@@ -51,4 +51,11 @@ const deleteProduct = async (id) => {
   return product;
 };
 
-module.exports = { getProductAll, getProductById, createProduct, updateProduct, deleteProduct };
+const getByName = async (name) => {
+   const query = 'SELECT * FROM products WHERE name = ?';
+  const [result] = await connection.execute(query, [name]);
+  return result;
+};
+
+module.exports = { 
+  getProductAll, getProductById, createProduct, updateProduct, deleteProduct, getByName };

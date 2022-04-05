@@ -1,16 +1,5 @@
 const SalesServices = require('../services/SalesService');
 
-const getSalesAll = async (_req, res) => {
-  try {
-    const sales = await SalesServices.getSalesAll();
-    
-    return res.status(200).json(sales);
-} catch (error) {
-  console.error(error);
-  return res.status(500).json({ message: 'Erro de Servidor' });
-  }
-};
-
 const getSaleById = async (req, res) => {
   try {
   const { id } = req.params;
@@ -25,6 +14,17 @@ const getSaleById = async (req, res) => {
 }
 };
 
+const getSalesAll = async (_req, res) => {
+  try {
+    const sales = await SalesServices.getSalesAll();
+    
+    return res.status(200).json(sales);
+} catch (error) {
+  console.error(error);
+  return res.status(500).json({ message: 'Erro de Servidor' });
+  }
+};
+
 const createProductSales = async (req, res) => {
   try {
     const createSale = await SalesServices.createProductSales(req.body);
@@ -35,4 +35,16 @@ const createProductSales = async (req, res) => {
   }
 };
 
-module.exports = { getSalesAll, getSaleById, createProductSales };
+const updateSales = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateSale = await SalesServices.updateSales(req.body, id);
+    console.log(updateSale);
+    return res.status(200).json(updateSale);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Erro de Servidor' });
+}
+};
+
+module.exports = { getSalesAll, getSaleById, createProductSales, updateSales };

@@ -20,15 +20,15 @@ const getProductById = async (id) => {
   }
 };
 
-const createProduct = async (product) => {
-  try {
-  const newProduct = await ProductsModel.createProduct(product);
+const getByNames = async ({ name }) => {
+    const getByName = await ProductsModel.getByName(name);
+    return getByName;
+  };
+
+  const createProduct = async (product) => {
+    const newProduct = await ProductsModel.createProduct(product);
   return newProduct;
-  } catch (err) {
-    console.error(err);
-    return process.exit(1);
-  }
-};
+  };
 
 const updateProduct = async (product) => {
   try {
@@ -50,4 +50,5 @@ const deleteProduct = async (id) => {
 }
 };
 
-module.exports = { getProductAll, getProductById, createProduct, updateProduct, deleteProduct };
+module.exports = { 
+  getProductAll, getProductById, getByNames, updateProduct, deleteProduct, createProduct };

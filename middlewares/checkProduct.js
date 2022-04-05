@@ -11,7 +11,7 @@ if (name.length < 5) {
 next();
 };
 
-const validateQuantity = (req, res, next) => {
+const validateQuantityProduct = (req, res, next) => {
 const { quantity } = req.body;
 
 if (quantity <= 0) {
@@ -29,5 +29,5 @@ next();
 
 module.exports = {
   validateName,
-  validateQuantity,
+  validateQuantityProduct,
 };

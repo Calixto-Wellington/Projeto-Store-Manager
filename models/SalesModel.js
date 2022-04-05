@@ -65,17 +65,39 @@ const getSaleById = async (id) => {
 const createSalesProduct = async (sale) => {
   const saleIdQuery = 'INSERT INTO sales (date) VALUES (now())';
   const [saleId] = await connection.execute(saleIdQuery);
-
   const salesProductsQuery = `INSERT INTO StoreManager.sales_products
    (sale_id, product_id, quantity) VALUES (?, ?, ?)`;
-
+console.log(sale);
   await sale.map(({ productId, quantity }) => connection
     .execute(salesProductsQuery, [saleId.insertId, productId, quantity]));
-
-  return {
+    return {
     id: saleId.insertId,
     itemsSold: sale,
-  };
+ };
 };
 
-module.exports = { getSalesAll, getSaleById, createSalesProduct };
+const updateSales = async (sales, id) => {
+  const consult = `UPDATE StoreManager.sales_products
+  SET product_id = ?,
+  quantity = ?
+  WHERE
+  sale_id = ?`;
+  console.log(sales);
+  const result = sales
+  .map((s) => connection
+  .execute(consult, [s.productId, s.quantity, id]));
+  await Promise.all(result);
+  const resultObj = {
+    saleId: id,
+    itemUpdated: sales,
+  };
+  return resultObj;
+};
+
+const xablau = async (name) => {
+const [result] = await connection
+.query('SELECT * FROM StoreManager.products WHERE name = ?', [name]);
+return result;
+};
+
+module.exports = { getSalesAll, getSaleById, createSalesProduct, updateSales, xablau };
