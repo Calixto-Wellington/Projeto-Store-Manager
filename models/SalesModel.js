@@ -61,19 +61,26 @@ const getSaleById = async (id) => {
     return process.exit(1);
   }
 };
+const createSales = async () => {
+  const [result] = await connection.execute(
+    'INSERT INTO sales (date) VALUES (NOW());',
+    );
+  return { id: result.insertId };
+};
 
 const createSalesProduct = async (sale) => {
-  const saleIdQuery = 'INSERT INTO sales (date) VALUES (now())';
-  const [saleId] = await connection.execute(saleIdQuery);
-  const salesProductsQuery = `INSERT INTO StoreManager.sales_products
-   (sale_id, product_id, quantity) VALUES (?, ?, ?)`;
-console.log(sale);
-  await sale.map(({ productId, quantity }) => connection
-    .execute(salesProductsQuery, [saleId.insertId, productId, quantity]));
-    return {
-    id: saleId.insertId,
+  console.log(sale);
+   const { id: saleId } = await createSales();
+  const query = `
+  INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?);`;
+  const result = sale.map((s) =>
+   connection.execute(query, [saleId, s.productId, s.quantity]));
+  await Promise.all(result);
+ 
+  return {
+    id: saleId,
     itemsSold: sale,
- };
+  };
 };
 
 const updateSales = async (sales, id) => {
@@ -82,7 +89,6 @@ const updateSales = async (sales, id) => {
   quantity = ?
   WHERE
   sale_id = ?`;
-  console.log(sales);
   const result = sales
   .map((s) => connection
   .execute(consult, [s.productId, s.quantity, id]));

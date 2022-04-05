@@ -13,6 +13,7 @@ const getSaleById = async (id) => {
 };
 
 const createProductSales = async (sale) => {
+  console.log(sale);
   const newSale = await SalesModel.createSalesProduct(sale);
   return newSale;
 };
