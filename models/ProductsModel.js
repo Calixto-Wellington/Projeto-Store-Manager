@@ -2,7 +2,7 @@ const connection = require('./connection');
 
 const getProductAll = async () => {
   try {
-    const [rows] = await connection.query('SELECT * FROM products');
+    const [rows] = await connection.query('SELECT * FROM StoreManager.products');
     return rows;
   } catch (err) {
     console.error(err);
@@ -12,7 +12,7 @@ const getProductAll = async () => {
 
 const getProductById = async (id) => {
   try {
-  const [result] = await connection.query('SELECT * FROM products WHERE id = ?', [id]);
+  const [result] = await connection.query('SELECT * FROM StoreManager.products WHERE id = ?', [id]);
   if (!result.length) return null;
   return result[0];
 } catch (err) {
@@ -24,7 +24,7 @@ const getProductById = async (id) => {
 const createProduct = async ({ name, quantity }) => {
   try {
     const [{ insertId }] = await connection
-    .execute('INSERT INTO products (name, quantity) VALUES (?, ?)', [name, quantity]);
+    .execute('INSERT INTO StoreManager.products (name, quantity) VALUES (?, ?)', [name, quantity]);
     return {
       id: insertId,
       name,
@@ -38,7 +38,7 @@ const createProduct = async ({ name, quantity }) => {
 };
 
 const updateProduct = async ({ id, name, quantity }) => {
-  await connection.execute(`UPDATE products
+  await connection.execute(`UPDATE StoreManager.products
   SET name = ?,
   quantity = ?
   WHERE
@@ -47,12 +47,12 @@ const updateProduct = async ({ id, name, quantity }) => {
 };
 
 const deleteProduct = async (id) => {
-  const product = await connection.execute('DELETE FROM products WHERE id = ?', [id]);
+  const product = await connection.execute('DELETE FROM StoreManager.products WHERE id = ?', [id]);
   return product;
 };
 
 const getByName = async (name) => {
-   const query = 'SELECT * FROM products WHERE name = ?';
+   const query = 'SELECT * FROM StoreManager.products WHERE name = ?';
   const [result] = await connection.execute(query, [name]);
   return result;
 };
