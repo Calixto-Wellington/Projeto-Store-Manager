@@ -43,4 +43,4 @@ describe('Testa a rota /sales retorna as vendas', () => {
       expect(res.status.calledWith(200)).to.be.equal(true);
     });
   });
-});       
+});        

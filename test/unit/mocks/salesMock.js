@@ -37,8 +37,11 @@ const createSale = [{
   ]
 }];
 
+const noSales = [];
+
 module.exports = {
   getSaleById,
   allSales,
-  createSale
+  createSale,
+  noSales
 }
