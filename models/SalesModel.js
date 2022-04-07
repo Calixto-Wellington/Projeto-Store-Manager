@@ -100,10 +100,4 @@ const updateSales = async (sales, id) => {
   return resultObj;
 };
 
-const xablau = async (name) => {
-const [result] = await connection
-.query('SELECT * FROM StoreManager.products WHERE name = ?', [name]);
-return result;
-};
-
-module.exports = { getSalesAll, getSaleById, createSalesProduct, updateSales, xablau };
+module.exports = { getSalesAll, getSaleById, createSalesProduct, updateSales };
