@@ -39,4 +39,4 @@ describe('Testa a rota /products retorna os produtos', () => {
       expect(response).to.be.a('object');
     });
   });
-});                                                                                
+});
