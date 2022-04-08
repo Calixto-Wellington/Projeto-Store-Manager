@@ -1,46 +1,82 @@
-const sinon = require('sinon');
 const { expect } = require('chai');
+const sinon = require('sinon');
 
-const SalesController = require('../../../controllers/SalesController');
-const SalesService = require('../../../services/SalesService');
-const { getSaleById, allSales, } = require('../mocks/salesMock');
+const SaleController = require('../../../controllers/SalesController');
+const SaleService = require('../../../services/SalesService');
+const { sales } = require('../../unit/mocks/mock');
 
-describe('Testa a rota /sales retorna as vendas', () => {
-  const res = {};
-  const req = {};
+const response = {};
+const request = {};
 
+describe('Sales Controllers', () => {
   before(() => {
-    res.status = sinon.stub().returns(res);
-    res.json = sinon.stub().returns();
+    response.status = sinon.stub().returns(response);
+    response.json = sinon.stub().returns();
   });
 
-  describe('Testa o retorno das vendas', async () => {
+  describe('01 - requisição para pegar todas as vendas', () => {
     before(() => {
-      sinon.stub(SalesService, 'getSalesAll').resolves(allSales);
+      sinon.stub(SaleService, 'getSalesAll').resolves(sales);
     });
-
     after(() => {
-      SalesService.getSalesAll.restore();
+      SaleService.getSalesAll.restore();
     });
 
-    it('Testa o status 200', async () => {
-      await SalesController.getSalesAll(req, res);
-      expect(res.status.calledWith(200)).to.be.equal(true);
-      expect(res.json.calledWith(allSales)).to.be.equal(true);
+    it('se é retornado a mensagem de sucesso', async () => {
+      await SaleController.getSalesAll(request, response);
+      expect(response.status.calledWith(200)).to.be.equal(true);
+      expect(response.json.calledWith(sales)).to.be.equal(true);
     });
   });
-  describe('Testa o produto pelo id', () => {
+
+  describe('02 - requisição para pegar uma única venda', () => {
+    request.params = {
+      id: 2
+    };
+
+    const saleById = [
+      {
+        'date': '2022-04-04T05:00:27.000Z',
+        'productId': 3,
+        'quantity': 15
+      }
+    ]
+
     before(() => {
-      sinon.stub(SalesService, 'getSaleById').resolves(getSaleById);
+      sinon.stub(SaleService, 'getSaleById').resolves(saleById);
     });
-
     after(() => {
-      SalesService.getSaleById.restore();
+      SaleService.getSaleById.restore();
     });
 
-    it('Testa o retorno de um objeto', async () => {
-      await SalesController.getSaleById(req, res);
-      expect(res.status.calledWith(200)).to.be.equal(true);
+    it('se é retornado a mensagem de sucesso', async () => {
+      await SaleService.getSaleById(request, response);
+      expect(response.status.calledWith(200)).to.be.equal(true);
+      expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
     });
   });
-});        
+
+  describe('03 - se exibe o status de erro quando a venda é encontrada', () => {
+    request.params = {
+      id: 4
+    };
+
+    const errorMessage = 'Sale not found';
+
+    before(() => {
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      sinon.stub(SaleService, 'getSaleById').resolves({ error: 404});
+    });
+
+    after(async () => {
+      SaleService.getSaleById.restore();
+    });
+
+    it('se é retornado o status com o código 404', async () => {
+      await SaleController.getSaleById(request, response);
+      expect(response.status.calledWith(404)).to.be.equal(true);
+    });
+  });
+})

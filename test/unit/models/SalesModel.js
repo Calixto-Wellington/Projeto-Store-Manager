@@ -1,60 +1,52 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 
-const connection = require('../../../models/connection');
 const salesModel = require('../../../models/SalesModel');
-const { allSales, getSaleById, createSale, noSales } = require('../mocks/salesMock');
+const connection = require('../../../models/connection');
 
-describe('Ao chamar o model de listagem de vendas', async () => {
-  describe('Quando não há vendas na base', () => {
-    before(() => {
-      sinon.stub(connection, 'execute').resolves([noSales]);
-    });
+const noSales = [];
+const allSales = [
+  {
+    "date": "2021-09-09T04:54:29.000Z",
+    "productId": 1,
+    "quantity": 2
+  },
+  {
+    "date": "2021-09-09T04:54:54.000Z",
+    "productId": 2,
+    "quantity": 2
+  }
+];
+const findSale = [
+  {
+    "date": "2021-09-09T04:54:29.000Z",
+    "productId": 1,
+    "quantity": 2
+  },
+  {
+    "date": "2021-09-09T04:54:54.000Z",
+    "productId": 2,
+    "quantity": 2
+  }
+];
+const newSale = {
+  "id": 1,
+  "itemsSold": [
+    {
+      "productId": 1,
+      "quantity": 3
+    }
+  ]
+};
+const fakeSale =  [
+  {
+    "productId": 1,
+    "quantity": 3
+  }
+]
 
-    after(() => {
-      connection.execute.restore();
-    });
-
-    it('Retorn um array', async () => {
-      const result = await salesModel.getSalesAll();
-      expect(result).to.be.an('array');
-    });
-
-    it('Este array é vazio', async () => {
-      const result = await salesModel.getSalesAll();
-      expect(result).to.be.empty;
-    });
-  });
-
-  describe('Quando existem vendas na base', async () => {
-    before(() => {
-      sinon.stub(connection, 'execute').resolves([allSales]);
-    });
-
-    after(() => {
-      connection.execute.restore();
-    });
-
-    it('Retorn um array', async () => {
-      const result = await salesModel.getSalesAll();
-      expect(result).to.be.an('array');
-    });
-
-    it('Este array lista todas as vendas', async () => {
-      const result = await salesModel.getSalesAll();
-      expect(result).not.to.be.empty;
-      result.forEach(s => expect(s).to.be.an('object'));
-    });
-
-    it('Cada objeto do array contem as respectivas chaves: "date", "productId", "quantity"', async () => {
-      const result = await salesModel.getSalesAll();
-      result.forEach(p => expect(p).to.include.all.keys('date', 'productId', 'quantity'));
-    });
-  });
-});
-
-describe('Ao chamar o model de buscar uma venda', async () => {
-  describe('Quando a venda da busca não existe', async () => {
+describe('Quando chamo o model para gerar uma venda', async () => {
+  describe('A busca não traz vendas', async () => {
     befores(() => {
       sinon.stub(connection, 'execute').resolves([noSales]);
     });
@@ -63,45 +55,31 @@ describe('Ao chamar o model de buscar uma venda', async () => {
       connection.execute.restore();
     })
 
-    it('Retorna um array', async () => {
+    it('Tras um array sem nada', async () => {
       const result = await salesModel.getSaleById(1);
       expect(result).to.be.an('array');
     });
 
-    it('Este array é vazio', async () => {
+    it('array sem nada', async () => {
       const result = await salesModel.getSaleById(1);
       expect(result).to.be.empty;
     });
   });
 
-  describe('Quando a venda da busca existe', async () => {
+ });
+
+describe('Quando chamamos o model para cadastrar uma nova venda', () => {
+  describe('Sucesso', async () => {
     before(() => {
-      sinon.stub(connection, 'execute').resolves(getSaleById);
+      sinon.stub(connection, 'execute').resolves([newSale]);
     });
 
     after(() => {
       connection.execute.restore();
     });
 
-    it('Retorna um objeto', async () => {
-      const result = await salesModel.getSaleById(1);
-      expect(result).to.be.an('object');
-    });
-  });
-});
-
-describe('Ao chamar o model de cadastrar uma nova venda', () => {
-  describe('Quando é cadastrado com sucesso', async () => {
-    before(() => {
-      sinon.stub(connection, 'execute').resolves([createSale]);
-    });
-
-    after(() => {
-      connection.execute.restore();
-    });
-
-    it('Retorna um objeto', async () => {
-      const result = await salesModel.createSalesProduct(createSale);
+    it('Tras um objeto', async () => {
+      const result = await salesModel.createSalesProduct(fakeSale);
       expect(result).to.be.a('object');
     });
   });

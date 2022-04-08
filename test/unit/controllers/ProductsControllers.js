@@ -107,7 +107,7 @@ const { allProducts, productById } = require('../mocks/productsMock');
       });
   
       it('Retorna um objeto', async () => {
-        await ProductsController.findById(request,response);
+        await ProductsController.getProductById(request,response);
         expect(response).to.be.an('object');
       });
     });
