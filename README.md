@@ -7,8 +7,7 @@ O que foi pedido para desenvolver?
 O que desenvolvi?
 
     • Desenvolvi todas as camadas da API (Models, Services e Controllers).
-    • Desenvolvi uma aplicação onde foi possível fazer todas as operações básicas que se pode fazer em um banco de dados relacional (MySql)
-      
+    • Desenvolvi uma aplicação onde foi possível fazer todas as operações básicas que se pode fazer em um banco de dados relacional (MySql) 
     • Criação, Leitura, Atualização e Exclusão (CRUD.
 
 
