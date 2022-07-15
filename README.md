@@ -1,27 +1,28 @@
 # README 
 
-O que foi pedido para desenvolver?
+## O que foi pedido para desenvolver?
 
-    • Desenvolver um sistema de gerenciamento de vendas, onde foi possível criar, visualizar, deletar e atualizar produtos e vendas.
+   • Desenvolver um sistema de gerenciamento de vendas, onde foi possível criar, visualizar, deletar e atualizar produtos e vendas.
 
-O que desenvolvi?
+## O que desenvolvi?
 
-    • Desenvolvi todas as camadas da API (Models, Services e Controllers).
-    • Desenvolvi uma aplicação onde foi possível fazer todas as operações básicas que se pode fazer em um banco de dados relacional (MySql) 
-    • Criação, Leitura, Atualização e Exclusão (CRUD.
+   • Desenvolvi todas as camadas da API (Models, Services e Controllers).
+   • Desenvolvi uma aplicação onde foi possível fazer todas as operações básicas que se pode fazer em um banco de dados relacional (MySql) 
+   • Criação, Leitura, Atualização e Exclusão (CRUD.
 
 
-Quais habilidades utilizei?
+## Quais habilidades utilizei?
 
-    • Conhecimento sobre padrões arquiteturais, usando a arquitetura MSC (model-service-controller). 
-    • Além disso, usei meus conhecimentos sobre REST, criando uma API completamente RESTful.
-Quais testes utlizei?
+   • Conhecimento sobre padrões arquiteturais, usando a arquitetura MSC (model-service-controller). 
+   • Além disso, usei meus conhecimentos sobre REST, criando uma API completamente RESTful.
 
-    • Testei individualmente cada camada MSC
-    • Testei as rotas
+## Quais testes utlizei?
 
-Tecnologias utilizadas?
+   • Testei individualmente cada camada MSC
+   • Testei as rotas
 
-    • Node.js
-    • MySql
-    • Framework Express
+## Tecnologias utilizadas?
+
+   • Node.js
+   • MySql
+   • Framework Express
